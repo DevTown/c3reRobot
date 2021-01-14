@@ -4,9 +4,14 @@
 #include "soc/soc.h"
 #include "soc/rtc_cntl_reg.h"
 
-
-const char* ssid1 = "ESP32-CAM Robot";
-const char* password1 = "1234567890";
+#if __has_include("myconfig.h")
+  // I keep my settings in a seperate header file
+  // pls copy the sample file and place it in src folder
+  #include "myconfig.h"
+#else
+  const char* ssid = "C3reRobot";
+  const char* password =  "";
+#endif
 
 extern volatile unsigned int  motor_speed;
 extern void robo_stop();
@@ -95,10 +100,17 @@ void setup()
   esp_wifi_get_max_tx_power(&power);
   Serial.printf("wifi power: %d \n",power); 
   */
-  WiFi.softAP(ssid1, password1);
-  IPAddress myIP = WiFi.softAPIP();
-  Serial.print("AP IP address: ");
-  Serial.println(myIP);
+  
+  WiFi.begin(ssid, password);
+
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(250);  // Wait for Wifi to connect. If this fails wifi the code basically hangs here.
+                 // - It would be good to do something else here as a future enhancement.
+                 //   (eg: go to a captive AP config portal to configure the wifi)
+  }
+
+  Serial.print(" IP address: ");
+  Serial.print(WiFi.localIP());
   
   startCameraServer();
 
