@@ -4,6 +4,8 @@
 #include "soc/soc.h"
 #include "soc/rtc_cntl_reg.h"
 
+#include "SPIFFS.h"
+
 #if __has_include("myconfig.h")
   // I keep my settings in a seperate header file
   // pls copy the sample file and place it in src folder
@@ -80,6 +82,8 @@ void setup()
     config.jpeg_quality = 12;
     config.fb_count = 1;
   }
+
+ SPIFFS.begin(true);
 
   // camera init
   esp_err_t err = esp_camera_init(&config);
