@@ -39,6 +39,11 @@
                 <tr><td>Robot Speed</td><td align="center" colspan="2"><input type="range" id="speed" min="0" max="255" value="255" onchange="try{fetch(document.location.origin+'/control?var=speed&val='+this.value);}catch(e){}"></td></tr>
                 <tr><td>Stream Quality</td><td align="center" colspan="2"><input type="range" id="quality" min="10" max="63" value="10" onchange="try{fetch(document.location.origin+'/control?var=quality&val='+this.value);}catch(e){}"></td></tr>
                 <tr><td>Stream Resolution</td><td align="center" colspan="2"><input type="range" id="framesize" min="0" max="6" value="5" onchange="try{fetch(document.location.origin+'/control?var=framesize&val='+this.value);}catch(e){}"></td></tr>
+                <tr>
+          <td>FlashLight</td>
+          <td align="center" colspan="2"><input type="range" id="lamp" min="0" max="100" value="0" 
+            onchange="try{fetch(document.location.origin+'/control?var=flash&val='+this.value);}catch(e){}"></td>
+        </tr>
                 </table>
             </section>         
         </section>

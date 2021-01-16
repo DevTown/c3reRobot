@@ -41,7 +41,25 @@ extern volatile unsigned long move_interval;
 #define HREF_GPIO_NUM     23
 #define PCLK_GPIO_NUM     22
 
+#define LAMP_PIN           4 // LED FloodLamp.
+
 void startCameraServer();
+
+void listAllFiles(){
+ 
+  File root = SPIFFS.open("/");
+ 
+  File file = root.openNextFile();
+ 
+  while(file){
+ 
+      Serial.print("FILE: ");
+      Serial.println(file.name());
+ 
+      file = root.openNextFile();
+  }
+ 
+}
 
 void setup() 
 {
@@ -85,6 +103,11 @@ void setup()
 
  SPIFFS.begin(true);
 
+ listAllFiles();
+ // Remove index.html if not needed
+// SPIFFS.remove("/index.html");
+//listAllFiles();
+
   // camera init
   esp_err_t err = esp_camera_init(&config);
   if (err != ESP_OK) {
@@ -118,8 +141,8 @@ void setup()
   
   startCameraServer();
 
-  ledcSetup(7, 5000, 8);
-  ledcAttachPin(4, 7);  //pin4 is LED
+  ledcSetup(7, 50000, 9);
+  ledcAttachPin(LAMP_PIN, 7);  //pin4 is LED
   robo_setup();
   
   for (int i=0;i<5;i++) 
